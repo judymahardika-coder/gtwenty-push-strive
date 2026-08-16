@@ -1,0 +1,9 @@
+{
+  "name": "GPS — GTWENTY PUSH STRIVE",
+  "short_name": "GPS",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0b0f16",
+  "theme_color": "#ff4545",
+  "description": "Train • Ride • Progress"
+}
