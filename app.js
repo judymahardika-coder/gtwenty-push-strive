@@ -39,24 +39,6 @@ function exercise(id){return state.exercises.find(e=>e.id===id)}
 function metric(id){return state.metrics.find(m=>m.id===id)}
 function formatDate(d){return new Date(d+"T00:00:00").toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}
 
-function login(){
-  document.getElementById("app").innerHTML=`<div class="login">
-    <div class="login-box">
-      <img src="logo.png" alt="GTWENTY">
-      <h1>GPS</h1><div class="muted">GTWENTY PUSH STRIVE</div>
-      <p>Train • Ride • Progress</p>
-      <div class="role-select">
-        <button id="coachRole" class="${state.role==="coach"?"selected":""}" onclick="chooseRole('coach')">🧑‍🏫<br>Coach</button>
-        <button id="parentRole" class="${state.role==="parent"?"selected":""}" onclick="chooseRole('parent')">👨‍👩‍👧<br>Parent</button>
-      </div>
-      <button class="btn" style="width:100%" onclick="enterApp()">Masuk ke GPS</button>
-      <p style="margin-top:15px;font-size:11px">Prototype MVP • data tersimpan lokal di perangkat ini</p>
-    </div></div>`;
-}
-function chooseRole(r){state.role=r;login()}
-function enterApp(){if(!state.role){toast("Pilih Coach atau Parent");return} state.page=state.role==="coach"?"home":"parent";save();render()}
-function logout(){state.role=null;save();login()}
-
 function header(){
  return `<div class="topbar"><div class="brand"><img src="logo.png"><div><div class="brand-title">GPS — GTWENTY PUSH STRIVE</div><div class="brand-sub">TRAIN • RIDE • PROGRESS</div></div></div><div class="role-pill">${state.role==="coach"?"🧑‍🏫 Coach":"👨‍👩‍👧 Parent"} · <button style="background:none;border:0;color:#fff" onclick="logout()">Keluar</button></div></div>`
 }
@@ -182,4 +164,4 @@ function openAthleteModal(){modal(`<div class="section-head"><h2>Add Athlete</h2
 function saveAthlete(ev){ev.preventDefault();state.athletes.push({id:uid("a"),name:atName.value,category:atCat.value,gender:atGender.value,completion:0,streak:0});save();closeModal();render();toast("Atlet ditambahkan")}
 function athleteDetail(aid){const a=athlete(aid),rs=state.records.filter(r=>r.athleteId===aid);modal(`<div class="section-head"><h2>${esc(a.name)}</h2><button class="btn ghost small" onclick="closeModal()">Close</button></div><div class="card"><div class="kpi">${a.completion}%</div><div class="muted">Homework completion</div><hr style="border-color:#273244;border-width:1px 0 0;margin:14px 0"><div class="kpi">${a.streak} 🔥</div><div class="muted">Day streak</div></div><div class="section-head"><h3>Performance History</h3></div>${rs.map(r=>`<div class="list-item row between"><span>${formatDate(r.date)}</span><b>${r.value} ${metric(r.metricId)?.unit||""}</b></div>`).join("")||'<div class="empty">Belum ada data.</div>'}`)}
 
-render();
+
