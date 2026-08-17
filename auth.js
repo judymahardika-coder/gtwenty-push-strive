@@ -469,6 +469,11 @@ function chooseRole(role) {
   login();
 }
 
+window.requestPasswordReset = requestPasswordReset;
+window.login = login;
+window.enterApp = enterApp;
+window.updatePassword = updatePassword;
+
 window.addEventListener(
   "DOMContentLoaded",
   () => {
