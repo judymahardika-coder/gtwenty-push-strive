@@ -252,41 +252,7 @@ async function login() {
 
   if (recoveryMode) return;
 
-  const {
-    data: { session }
-  } = await window.gpsSupabase.auth.getSession();
-
-  if (session?.user) {
-
-    try {
-
-      const profile =
-        await getCoachProfile(
-          session.user.id
-        );
-
-      if (profile?.role === "coach") {
-
-        state.role = "coach";
-        state.page = "home";
-        state.authUserId = session.user.id;
-        state.profileName =
-          profile.full_name || "Coach";
-
-        render();
-
-        return;
-      }
-
-    } catch (error) {
-
-      console.error(
-        "Profile check failed:",
-        error
-      );
-    }
-  }
-
+  // TAMPILKAN FORM LOGIN TERLEBIH DAHULU
   document.getElementById("app").innerHTML = `
     <div class="login">
       <div class="login-box">
@@ -314,7 +280,7 @@ async function login() {
             type="email"
             autocomplete="email"
             value="judy.mahardika@gmail.com"
-            placeholder="Email"
+            placeholder="Email Coach"
           >
         </div>
 
@@ -377,6 +343,65 @@ async function login() {
       </div>
     </div>
   `;
+
+  // BARU SETELAH FORM MUNCUL, CEK SUPABASE
+  if (!window.gpsSupabase || !window.gpsSupabase.auth) {
+
+    showAuthError(
+      "Layanan login belum siap. Silakan refresh halaman."
+    );
+
+    return;
+  }
+
+  try {
+
+    const {
+      data: { session }
+    } = await window.gpsSupabase.auth.getSession();
+
+    if (!session?.user) {
+      return;
+    }
+
+    const profile =
+      await getCoachProfile(
+        session.user.id
+      );
+
+    if (profile?.role !== "coach") {
+      return;
+    }
+
+    state.role = "coach";
+    state.page = "home";
+    state.authUserId = session.user.id;
+    state.profileName =
+      profile.full_name || "Coach";
+
+    localStorage.setItem(
+      AUTH_KEY,
+      JSON.stringify({
+        userId: session.user.id,
+        role: profile.role,
+        fullName:
+          profile.full_name || "Coach"
+      })
+    );
+
+    render();
+
+  } catch (error) {
+
+    console.error(
+      "Session check failed:",
+      error
+    );
+
+    showAuthError(
+      "Sesi login belum dapat diperiksa. Silakan login kembali."
+    );
+  }
 }
 
 async function enterApp() {
