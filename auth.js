@@ -319,15 +319,17 @@ async function login() {
         </button>
 
         <button
-          class="btn"
-          style="
-            width:100%;
-            margin-top:10px;
-            background:transparent;
-            border:1px solid rgba(255,255,255,.15)
-          "
-         onclick="requestPasswordReset()"
-        >
+  id="resetButton"
+  type="button"
+  class="btn"
+  style="
+    width:100%;
+    margin-top:10px;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.15)
+  "
+>
+  
           Lupa Password?
         </button>
 
@@ -343,6 +345,14 @@ async function login() {
       </div>
     </div>
      `;
+  const resetButton = document.getElementById("resetButton");
+
+if (resetButton) {
+  resetButton.addEventListener(
+    "click",
+    requestPasswordReset
+  );
+}
 }
 
 async function enterApp() {
