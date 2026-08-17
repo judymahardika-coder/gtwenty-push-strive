@@ -326,7 +326,7 @@ async function login() {
             background:transparent;
             border:1px solid rgba(255,255,255,.15)
           "
-          onclick="requestPasswordReset()"
+          onclick="showResetRequest()"
         >
           Lupa Password?
         </button>
@@ -342,12 +342,10 @@ async function login() {
 
       </div>
     </div>
-  `;
-
-  
+     `;
+}
 
 async function enterApp() {
-
   const email =
     document
       .getElementById("loginEmail")
