@@ -344,65 +344,7 @@ async function login() {
     </div>
   `;
 
-  // BARU SETELAH FORM MUNCUL, CEK SUPABASE
-  if (!window.gpsSupabase || !window.gpsSupabase.auth) {
-
-    showAuthError(
-      "Layanan login belum siap. Silakan refresh halaman."
-    );
-
-    return;
-  }
-
-  try {
-
-    const {
-      data: { session }
-    } = await window.gpsSupabase.auth.getSession();
-
-    if (!session?.user) {
-      return;
-    }
-
-    const profile =
-      await getCoachProfile(
-        session.user.id
-      );
-
-    if (profile?.role !== "coach") {
-      return;
-    }
-
-    state.role = "coach";
-    state.page = "home";
-    state.authUserId = session.user.id;
-    state.profileName =
-      profile.full_name || "Coach";
-
-    localStorage.setItem(
-      AUTH_KEY,
-      JSON.stringify({
-        userId: session.user.id,
-        role: profile.role,
-        fullName:
-          profile.full_name || "Coach"
-      })
-    );
-
-    render();
-
-  } catch (error) {
-
-    console.error(
-      "Session check failed:",
-      error
-    );
-
-    showAuthError(
-      "Sesi login belum dapat diperiksa. Silakan login kembali."
-    );
-  }
-}
+  
 
 async function enterApp() {
 
