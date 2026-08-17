@@ -326,7 +326,7 @@ async function login() {
             background:transparent;
             border:1px solid rgba(255,255,255,.15)
           "
-          onclick="showResetRequest()"
+         onclick="requestPasswordReset()"
         >
           Lupa Password?
         </button>
